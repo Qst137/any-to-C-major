@@ -1,0 +1,8 @@
+[package]
+name = "any-to-C-major"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = {version = "4.3.8",features = ["derive"]}
+wild = "2.2.1"
