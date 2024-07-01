@@ -1,5 +1,3 @@
-use clap::builder::Str;
-
 pub struct Key {
     offset: i8,
 }
@@ -39,17 +37,54 @@ pub struct Note {
     field: Field,
 }
 
-impl Note {
-    pub fn from_pitch(pitch: i16) -> Self {
-        let field = match (pitch / 12) as i8 {
+impl Field {
+    fn from_number(field_num:i8)->Self{
+        match field_num {
             0 => Field::Basic,
             1 => Field::High,
             2 => Field::DoubleHigh,
             -1 => Field::Low,
             -2 => Field::DoubleLow,
             other_field => Field::Undefined(other_field),
-        };
+        }
+    }
+}
+
+impl Note {
+    pub fn from_pitch(pitch: i16) -> Self {
+        let field = Field::from_number((pitch/12) as i8);
         let offset = (pitch % 12) as i8;
         Note { offset, field }
     }
+
+    pub fn from_flags(field_num:i8,note_num:i8,sharp_flag:bool,flat_flag:bool)->Self{
+        let mut offset = match note_num{
+            1=>0,
+            2=>2,
+            3=>4,
+            4=>5,
+            5=>7,
+            6=>9,
+            7=>11,
+            _=>unimplemented!(),
+        };
+        let mut field_num= field_num;
+        if sharp_flag{
+            offset=offset+1;
+        }if flat_flag{
+            offset=offset-1;
+        }if offset==-1{
+            field_num=  field_num-1;
+            offset = 11;
+
+        }else if offset == 12{
+            field_num=field_num+1;
+            offset=0;
+        }
+        let field = Field::from_number(field_num);
+        Self{offset,field}
+        
+    }
 }
+
+
