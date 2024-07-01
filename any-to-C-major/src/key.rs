@@ -38,7 +38,7 @@ pub struct Note {
 }
 
 impl Field {
-    fn from_number(field_num:i8)->Self{
+    fn from_number(field_num: i8) -> Self {
         match field_num {
             0 => Field::Basic,
             1 => Field::High,
@@ -52,39 +52,41 @@ impl Field {
 
 impl Note {
     pub fn from_pitch(pitch: i16) -> Self {
-        let field = Field::from_number((pitch/12) as i8);
+        let field = Field::from_number((pitch / 12) as i8);
         let offset = (pitch % 12) as i8;
         Note { offset, field }
     }
 
-    pub fn from_flags(field_num:i8,note_num:i8,sharp_flag:bool,flat_flag:bool)->Self{
-        let mut offset = match note_num{
-            1=>0,
-            2=>2,
-            3=>4,
-            4=>5,
-            5=>7,
-            6=>9,
-            7=>11,
-            _=>unimplemented!(),
-        };
-        let mut field_num= field_num;
-        if sharp_flag{
-            offset=offset+1;
-        }if flat_flag{
-            offset=offset-1;
-        }if offset==-1{
-            field_num=  field_num-1;
+    pub fn from_flags(field_num: i8, note_num: i8, sharp_flag: bool, flat_flag: bool) -> Self {
+        let mut offset = Note::num_to_offset(note_num);
+        let mut field_num = field_num;
+        if sharp_flag {
+            offset = offset + 1;
+        }
+        if flat_flag {
+            offset = offset - 1;
+        }
+        if offset == -1 {
+            field_num = field_num - 1;
             offset = 11;
-
-        }else if offset == 12{
-            field_num=field_num+1;
-            offset=0;
+        } else if offset == 12 {
+            field_num = field_num + 1;
+            offset = 0;
         }
         let field = Field::from_number(field_num);
-        Self{offset,field}
-        
+        Self { offset, field }
+    }
+
+    fn num_to_offset(note_num: i8) -> i8 {
+        match note_num {
+            1 => 0,
+            2 => 2,
+            3 => 4,
+            4 => 5,
+            5 => 7,
+            6 => 9,
+            7 => 11,
+            _ => unimplemented!(),
+        }
     }
 }
-
-
