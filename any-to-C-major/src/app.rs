@@ -15,4 +15,6 @@ pub struct Cli {
     pub key: Option<String>,
 
     pub target_style:Option<String>,
+
+    pub protect_lines:bool,
 }

@@ -8,22 +8,18 @@ use crate::{
 
 pub struct Reader {
     path: PathBuf,
-    protect_lines: bool,
 }
 
 impl Reader {
-    pub fn new(path: PathBuf, protect_lines: bool) -> Self {
+    pub fn new(path: PathBuf) -> Self {
         Self {
             path,
-            protect_lines,
         }
     }
 
-    pub fn to_sheet(self) -> Result<String, std::io::Error> {
-        let mut sheet_str = fs::read_to_string(self.path)?;
-        if !self.protect_lines {
-            sheet_str = sheet_str.replace("\n", "");
-        }
+    pub fn to_string(self) -> Result<String, std::io::Error> {
+        let sheet_str = fs::read_to_string(self.path)?;
+        
         Ok(sheet_str)
     }
 }
