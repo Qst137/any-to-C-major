@@ -7,6 +7,9 @@ mod flag;
 mod key;
 mod sheet;
 mod reader;
+mod parser;
+mod generator;
+mod tests;
 
 use app::Cli;
 use clap::Parser;

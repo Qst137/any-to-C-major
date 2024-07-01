@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct Key {
     offset: i8,
 }
@@ -22,8 +23,10 @@ impl Key {
         };
         Self { offset }
     }
+
 }
 
+#[derive(Debug)]
 enum Field {
     Basic,
     High,
@@ -31,10 +34,6 @@ enum Field {
     DoubleHigh,
     DoubleLow,
     Undefined(i8),
-}
-pub struct Note {
-    offset: i8,
-    field: Field,
 }
 
 impl Field {
@@ -48,6 +47,13 @@ impl Field {
             other_field => Field::Undefined(other_field),
         }
     }
+
+}
+
+#[derive(Debug)]
+pub struct Note {
+    offset: i8,
+    field: Field,
 }
 
 impl Note {
@@ -57,8 +63,8 @@ impl Note {
         Note { offset, field }
     }
 
-    pub fn from_flags(field_num: i8, note_num: i8, sharp_flag: bool, flat_flag: bool) -> Self {
-        let mut offset = Note::num_to_offset(note_num);
+    pub fn from_flags(field_num: i8, note_char: char, sharp_flag: bool, flat_flag: bool) -> Self {
+        let mut offset = Note::char_to_offset(note_char);
         let mut field_num = field_num;
         if sharp_flag {
             offset = offset + 1;
@@ -77,16 +83,17 @@ impl Note {
         Self { offset, field }
     }
 
-    fn num_to_offset(note_num: i8) -> i8 {
-        match note_num {
-            1 => 0,
-            2 => 2,
-            3 => 4,
-            4 => 5,
-            5 => 7,
-            6 => 9,
-            7 => 11,
+    fn char_to_offset(note_char: char) -> i8 {
+        match note_char {
+            '1' => 0,
+            '2' => 2,
+            '3' => 4,
+            '4' => 5,
+            '5' => 7,
+            '6' => 9,
+            '7' => 11,
             _ => unimplemented!(),
         }
     }
+
 }
