@@ -22,10 +22,11 @@ impl Sheet{
     }
 
     pub fn add_note(& mut self,note:Note){
-        self.signs.append(vec![Sign::Note(note)].as_mut());
+        self.signs.push(Sign::Note(note));
     }
 
     pub fn add_other(& mut self,other_sign:char){
-        self.signs.append(vec![Sign::Other(other_sign)].as_mut());
+        self.signs.push(Sign::Other(other_sign));
     }
+
 }
