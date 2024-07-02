@@ -10,6 +10,7 @@ mod parser;
 mod reader;
 mod sheet;
 mod tests;
+mod transformer;
 
 use app::Cli;
 use flag::Flag;
