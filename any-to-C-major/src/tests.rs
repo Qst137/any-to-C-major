@@ -1,12 +1,9 @@
-use flag::SheetStyle;
-use parser::Parser;
-
-use super::*;
+use crate::{flag::SheetStyle, key::Key, parser::Parser};
 
 #[test]
 fn test_str_to_sheet() {
-    let sheet_string = "44(11221)b7b766554".to_string();
+    let sheet_string = "3212343,321#5673,3#23(211)776365".to_string();
     let style = SheetStyle::Brackets;
     let parser = Parser::new(style, sheet_string);
-    println!("{:?}", parser.parse());
+    println!("{:?}", parser.parse(Key::from_letter("f")));
 }
