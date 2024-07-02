@@ -27,6 +27,10 @@ impl Key {
     pub fn to_number(&self) -> i32 {
         self.offset
     }
+
+    pub fn from_number(offset: i32) -> Self {
+        Self { offset }
+    }
 }
 
 #[derive(Debug)]
@@ -112,5 +116,4 @@ impl Note {
             _ => unimplemented!(),
         }
     }
-
 }
