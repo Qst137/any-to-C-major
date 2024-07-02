@@ -25,8 +25,8 @@ impl Parser {
                     .replace("（", "(");
                 Self::parse_brackets(sheet, key)
             }
-            SheetStyle::CNBrackets => unimplemented!(),
-            SheetStyle::Dots => unimplemented!(),
+            SheetStyle::CNBrackets => todo!(),
+            SheetStyle::Dots => todo!(),
         };
     }
 
@@ -81,10 +81,10 @@ impl Parser {
     }
 
     fn parse_cn_brackets(sheet_str: String) -> Sheet {
-        unimplemented!()
+        todo!()
     }
 
     fn parse_dots(sheet_str: String) -> Sheet {
-        unimplemented!()
+        todo!()
     }
 }

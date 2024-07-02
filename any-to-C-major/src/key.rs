@@ -1,6 +1,6 @@
 #[derive(Debug)]
 pub struct Key {
-    offset: i8,
+    offset: i32,
 }
 
 impl Key {
@@ -24,6 +24,9 @@ impl Key {
         Self { offset }
     }
 
+    pub fn to_number(&self) -> i32 {
+        self.offset
+    }
 }
 
 #[derive(Debug)]
@@ -33,11 +36,11 @@ enum Field {
     Low,
     DoubleHigh,
     DoubleLow,
-    Undefined(i8),
+    Undefined(i32),
 }
 
 impl Field {
-    fn from_number(field_num: i8) -> Self {
+    fn from_number(field_num: i32) -> Self {
         match field_num {
             0 => Field::Basic,
             1 => Field::High,
@@ -48,22 +51,36 @@ impl Field {
         }
     }
 
+    fn to_number(&self) -> i32 {
+        match self.clone() {
+            Field::Basic => 0,
+            Field::High => 1,
+            Field::DoubleHigh => 2,
+            Field::Low => -1,
+            Field::DoubleLow => -2,
+            Field::Undefined(i) => *i,
+        }
+    }
 }
 
 #[derive(Debug)]
 pub struct Note {
-    offset: i8,
+    offset: i32,
     field: Field,
 }
 
 impl Note {
-    pub fn from_pitch(pitch: i16) -> Self {
-        let field = Field::from_number((pitch / 12) as i8);
-        let offset = (pitch % 12) as i8;
+    pub fn from_pitch(pitch: i32) -> Self {
+        let field = Field::from_number((pitch / 12) as i32);
+        let offset = (pitch % 12) as i32;
         Note { offset, field }
     }
 
-    pub fn from_flags(field_num: i8, note_char: char, sharp_flag: bool, flat_flag: bool) -> Self {
+    pub fn to_pitch(&self) -> i32 {
+        self.offset + self.field.to_number() * 12
+    }
+
+    pub fn from_flags(field_num: i32, note_char: char, sharp_flag: bool, flat_flag: bool) -> Self {
         let mut offset = Note::char_to_offset(note_char);
         let mut field_num = field_num;
         if sharp_flag {
@@ -83,7 +100,7 @@ impl Note {
         Self { offset, field }
     }
 
-    fn char_to_offset(note_char: char) -> i8 {
+    fn char_to_offset(note_char: char) -> i32 {
         match note_char {
             '1' => 0,
             '2' => 2,
