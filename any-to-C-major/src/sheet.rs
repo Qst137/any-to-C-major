@@ -51,6 +51,7 @@ impl Sheet {
     }
 }
 
+#[derive(Debug)]
 enum SignInside {
     Note(i32),
     Other(char),
@@ -59,7 +60,7 @@ enum SignInside {
 impl SignInside {
     pub fn add(&mut self, number: i32) {
         match *self {
-            Self::Note(mut i) => i = i + number,
+            Self::Note(i) => *self = Self::Note(i + number),
             Self::Other(_) => (),
         }
     }
@@ -72,13 +73,14 @@ impl SignInside {
     }
 }
 
+#[derive(Debug)]
 pub struct SheetInside {
     key_inside: i32,
     signs_inside: Vec<SignInside>,
 }
 
 impl SheetInside {
-    pub fn all_add(&mut self, number: i32) -> &mut Self {
+    fn all_add(&mut self, number: i32) -> &mut Self {
         self.signs_inside
             .iter_mut()
             .for_each(|one_sign| one_sign.add(number));
@@ -93,5 +95,9 @@ impl SheetInside {
             .collect();
         let key = Key::from_number(self.key_inside);
         Sheet { signs, key }
+    }
+
+    pub fn to_c(&mut self) {
+        self.all_add(self.key_inside);
     }
 }

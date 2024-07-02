@@ -5,8 +5,13 @@ pub struct Transformer {
 }
 
 impl Transformer {
-    fn new(base_sheet: Sheet) -> Self {
+    pub fn new(base_sheet: Sheet) -> Self {
         Self { base_sheet }
     }
-    
+
+    pub fn to_c(self) -> Sheet {
+        let mut sheet_inside = self.base_sheet.to_sheet_inside();
+        sheet_inside.to_c();
+        sheet_inside.to_sheet()
+    }
 }
