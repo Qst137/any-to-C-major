@@ -14,7 +14,7 @@ impl Key {
             "e" => 4,
             "f" => 5,
             "fsharp" | "f#" | "gflat" | "gb" => 6,
-            "g" => 7,
+            "g" => -5,
             "gsharp" | "g#" | "aflat" | "ab" => -4,
             "a" => -3,
             "asharp" | "a#" | "bflat" | "bb" => -2,
