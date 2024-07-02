@@ -86,8 +86,12 @@ impl SheetInside {
     }
 
     pub fn to_sheet(self) -> Sheet {
-        let signs = self.signs_inside.into_iter().map(|one_sign| one_sign.to_sign()).collect();
+        let signs = self
+            .signs_inside
+            .into_iter()
+            .map(|one_sign| one_sign.to_sign())
+            .collect();
         let key = Key::from_number(self.key_inside);
-        Sheet{signs,key}
+        Sheet { signs, key }
     }
 }
