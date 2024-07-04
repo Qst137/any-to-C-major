@@ -15,6 +15,7 @@ impl Core {
         let sheet_string = Reader::new(sheet_dir).to_string()?;
         let sheet = Parser::new(self.flag.original_style, sheet_string).parse(self.flag.key);
         let sheet_c = Transformer::new(sheet).to_c();
+        let string = sheet_c.format(self.flag.target_style);
         Ok(())
     }
 }
