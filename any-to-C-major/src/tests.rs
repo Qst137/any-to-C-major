@@ -9,11 +9,22 @@ use crate::{flag::SheetStyle, key::Key, parser::Parser, transformer::Transformer
 //     println!("{:?}", parser.parse(Key::from_letter("f")));
 // }
 
+// #[test]
+// fn test_sheet_to_c() {
+//     let sheet_string = "3212343,321#5673,3#23(211)776365".to_string();
+//     let style = SheetStyle::Brackets;
+//     let sheet = Parser::new(style, sheet_string).parse(Key::from_letter("f"));
+//     let c_sheet = Transformer::new(sheet).to_c();
+//     println!("{:?}", c_sheet);
+// }
+
 #[test]
 fn test_sheet_to_c() {
     let sheet_string = "3212343,321#5673,3#23(211)776365".to_string();
+    println!("{sheet_string}");
     let style = SheetStyle::Brackets;
-    let sheet = Parser::new(style, sheet_string).parse(Key::from_letter("f"));
+    let sheet = Parser::new(style, sheet_string).parse(Key::from_letter("f#"));
     let c_sheet = Transformer::new(sheet).to_c();
-    println!("{:?}", c_sheet);
+    let formatted = c_sheet.format(SheetStyle::Brackets);
+    println!("{formatted}");
 }

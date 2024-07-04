@@ -1,6 +1,9 @@
-use std::char;
+use std::{char, slice::Iter};
 
-use crate::key::{Key, Note};
+use crate::{
+    flag::SheetStyle,
+    key::{Field, Key, Note},
+};
 
 #[derive(Debug)]
 enum Sign {
@@ -47,6 +50,79 @@ impl Sheet {
         SheetInside {
             key_inside,
             signs_inside,
+        }
+    }
+
+    pub fn format(&self, sheet_style: SheetStyle) -> String {
+        match sheet_style {
+            SheetStyle::Brackets => self.format_brackets(),
+            SheetStyle::CNBrackets => todo!(),
+            SheetStyle::Dots => todo!(),
+        }
+    }
+
+    fn format_brackets(&self) -> String {
+        let mut string = String::new();
+        let mut field_flag = Field::Basic;
+        for each_sign in &self.signs {
+            match each_sign {
+                Sign::Other(char) => string.push(*char),
+                Sign::Note(n) => {
+                    if *n.get_field() != field_flag {
+                        // enclose the last bracket
+                        Self::enclose_bracket(field_flag, &mut string);
+                        field_flag = *n.get_field();
+                        Self::start_bracket(field_flag, &mut string);
+                    }
+                    string.push_str(n.get_str())
+                }
+            }
+        }
+        Self::enclose_bracket(field_flag, &mut string);
+        string
+    }
+
+    // enclose a bracket closure
+    fn enclose_bracket(field: Field, string: &mut String) {
+        match field {
+            Field::High => string.push(')'),
+            Field::DoubleHigh => string.push_str("))"),
+            Field::Low => string.push(']'),
+            Field::DoubleLow => string.push_str("]]"),
+            Field::Undefined(i) => {
+                let mut i = i;
+                while i > 0 {
+                    i = i - 1;
+                    string.push(')');
+                }
+                while i < 0 {
+                    i = i + 1;
+                    string.push(']');
+                }
+            }
+            _ => (),
+        }
+    }
+
+    // start a bracket closure
+    fn start_bracket(field: Field, string: &mut String) {
+        match field {
+            Field::High => string.push('('),
+            Field::DoubleHigh => string.push_str("(("),
+            Field::Low => string.push('['),
+            Field::DoubleLow => string.push_str("[["),
+            Field::Undefined(i) => {
+                let mut i = i;
+                while i > 0 {
+                    i = i - 1;
+                    string.push('(');
+                }
+                while i < 0 {
+                    i = i + 1;
+                    string.push('[');
+                }
+            }
+            _ => (),
         }
     }
 }
