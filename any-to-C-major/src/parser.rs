@@ -16,21 +16,18 @@ impl Parser {
 
     pub fn parse(self, key: Key) -> Sheet {
         return match self.style {
-            SheetStyle::Brackets => {
-                let sheet = self
-                    .sheet
-                    .replace("【", "[")
-                    .replace("】", "]")
-                    .replace("）", ")")
-                    .replace("（", "(");
-                Self::parse_brackets(sheet, key)
-            }
-            SheetStyle::CNBrackets => todo!(),
-            SheetStyle::Dots => todo!(),
+            SheetStyle::Brackets => Self::parse_brackets(self.sheet, key),
+            SheetStyle::CNBrackets => Self::parse_cn_brackets(self.sheet, key),
+            SheetStyle::Dots => Self::parse_dots(self.sheet, key),
         };
     }
 
     fn parse_brackets(sheet_str: String, key: Key) -> Sheet {
+        let sheet_str = sheet_str
+            .replace("【", "[")
+            .replace("】", "]")
+            .replace("）", ")")
+            .replace("（", "(");
         let mut sharp_flag = false;
         let mut flat_flag = false;
         let mut field_flag = 0;
@@ -80,11 +77,11 @@ impl Parser {
         sheet
     }
 
-    fn parse_cn_brackets(sheet_str: String) -> Sheet {
+    fn parse_cn_brackets(sheet_str: String, key: Key) -> Sheet {
         todo!()
     }
 
-    fn parse_dots(sheet_str: String) -> Sheet {
+    fn parse_dots(sheet_str: String, key: Key) -> Sheet {
         todo!()
     }
 }
