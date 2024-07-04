@@ -116,4 +116,26 @@ impl Note {
             _ => unimplemented!(),
         }
     }
+
+    pub fn get_str(&self) -> &str {
+        match self.offset {
+            0 => "1",
+            1 => "#1",
+            2 => "2",
+            3 => "#2",
+            4 => "3",
+            5 => "4",
+            6 => "#4",
+            7 => "5",
+            8 => "#5",
+            9 => "6",
+            10 => "#6",
+            11 => "7",
+            _ => unimplemented!(),
+        }
+    }
+
+    pub fn get_field(&self) -> &Field {
+        &self.field
+    }
 }
