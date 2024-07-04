@@ -4,7 +4,6 @@ use std::{io::Error, path::PathBuf, str::FromStr};
 mod app;
 mod core;
 mod flag;
-mod generator;
 mod key;
 mod parser;
 mod reader;
