@@ -33,8 +33,8 @@ impl Key {
     }
 }
 
-#[derive(Debug)]
-enum Field {
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+pub enum Field {
     Basic,
     High,
     Low,
@@ -62,7 +62,7 @@ impl Field {
             Field::DoubleHigh => 2,
             Field::Low => -1,
             Field::DoubleLow => -2,
-            Field::Undefined(i) => *i,
+            Field::Undefined(i) => i,
         }
     }
 }
