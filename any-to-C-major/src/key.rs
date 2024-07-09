@@ -75,8 +75,14 @@ pub struct Note {
 
 impl Note {
     pub fn from_pitch(pitch: i32) -> Self {
-        let field = Field::from_number((pitch / 12) as i32);
-        let offset = (pitch % 12) as i32;
+        let (field, offset) = if pitch >= 0 {
+            (Field::from_number((pitch / 12) as i32), (pitch % 12) as i32)
+        } else {
+            (
+                Field::from_number((pitch / 12) as i32 - 1),
+                (0 - pitch % 12) as i32,
+            )
+        };
         Note { offset, field }
     }
 
