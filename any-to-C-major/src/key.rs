@@ -80,7 +80,7 @@ impl Note {
         } else {
             (
                 Field::from_number((pitch / 12) as i32 - 1),
-                (0 - pitch % 12) as i32,
+                (12 + pitch % 12) as i32,
             )
         };
         Note { offset, field }
