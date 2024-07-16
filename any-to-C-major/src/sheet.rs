@@ -1,4 +1,4 @@
-use std::{char, slice::Iter};
+use std::char;
 
 use crate::{
     flag::SheetStyle,
@@ -66,7 +66,12 @@ impl Sheet {
         let mut field_flag = Field::Basic;
         for each_sign in &self.signs {
             match each_sign {
-                Sign::Other(char) => string.push(*char),
+                Sign::Other(char) => {
+                    if *char == ' ' || *char == '\n' {}
+                    Self::enclose_bracket(field_flag, &mut string);
+                    field_flag = Field::from_number(0);
+                    string.push(*char);
+                }
                 Sign::Note(n) => {
                     if *n.get_field() != field_flag {
                         // enclose the last bracket

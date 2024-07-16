@@ -44,7 +44,7 @@ pub enum Field {
 }
 
 impl Field {
-    fn from_number(field_num: i32) -> Self {
+    pub fn from_number(field_num: i32) -> Self {
         match field_num {
             0 => Field::Basic,
             1 => Field::High,
